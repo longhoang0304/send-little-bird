@@ -1,7 +1,7 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 
-const ChatRecord = ({ message, sender, isCurrentUser }) => {
+const ChatRecord = ({ message, sender, guessUserId }) => {
   if (!sender) {
     return (
       <div>
@@ -15,7 +15,7 @@ const ChatRecord = ({ message, sender, isCurrentUser }) => {
       <span>{sender.nickname}</span>
       <span>({sender.userId}</span>
       <span>-</span>
-      <span>{isCurrentUser ? 'Owner' : 'Guess'})</span>
+      <span>{guessUserId !== sender.userId ? 'You' : 'Guess'})</span>
       <span>:</span>
       <span>{message}</span>
     </div>
@@ -30,7 +30,7 @@ ChatRecord.propTypes = {
   message: PropTypes.string.isRequired,
   sender: PropTypes.shape(
   ),
-  isCurrentUser: PropTypes.string.isRequired,
+  guessUserId: PropTypes.string,
 };
 
 export default ChatRecord;

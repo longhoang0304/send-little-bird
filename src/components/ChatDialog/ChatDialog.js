@@ -12,7 +12,7 @@ const ChatDialog = ({ userId, message, createChannel }) => {
   return (
     <div>
       <ChatBox userId={userId} />
-      <ChatHistory chatHistory={history} />
+      <ChatHistory chatHistory={history} guessUserId={userId} />
     </div>
   );
 };

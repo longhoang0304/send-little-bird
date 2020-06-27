@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 const ChatBox = ({ sendMessage, userId }) => {
   const [message, setMessage] = useState("");
   const sendMsg = useCallback(() => {
-    sendMessage(userId, message)
+    sendMessage(userId, message);
+    setMessage("");
   }, [message]);
 
   return (

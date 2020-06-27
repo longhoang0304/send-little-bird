@@ -1,3 +1,4 @@
+import { eventChannel, END } from 'redux-saga'
 import {
   all, call,
   put, select,
@@ -12,7 +13,6 @@ import {
   selectors as ChannelsSelectors,
 } from '../../reducers/channels';
 import sb, { sendBirdPromisify } from '../../utils/sendbird';
-import {selectors as AuthSelectors} from "../../reducers/auth";
 
 export function* handleFetchHistory({ userId: guessUserId }) {
   try {
@@ -29,17 +29,28 @@ export function* handleFetchHistory({ userId: guessUserId }) {
   }
 }
 
-export function handleNewMessageReceivedGenerator(userId) {
-  function* handleNewMessageReceived(channel, message) {
-    yield put(MessagesActions.updateNewMessage(userId, [message]))
-  }
+export function* handleMessageReceivedEvent(action) {
+  const { userId, message } = action;
+  yield put(MessagesActions.updateNewMessage(userId, message))
+}
 
-  return handleNewMessageReceived;
+export function createChannelToListenForNewMessage(userId, channel) {
+  return eventChannel(dispatch => {
+    const channelHandler = new sb.ChannelHandler();
+
+    channelHandler.onMessageReceived = function(channel, message) {
+      dispatch({ userId, message })
+    }
+    sb.addChannelHandler(channel.url, channelHandler); //
+    return () => {
+      sb.removeChannelHandler(channel.url); //
+    }
+  })
 }
 
 export function* handleListenForNewMessage({ userId: guessUserId, channel }) {
-  channel.onMessageReceived = handleNewMessageReceivedGenerator(guessUserId);
   yield put(MessagesActions.fetchOldMsg(guessUserId));
+  yield takeEvery(createChannelToListenForNewMessage(guessUserId, channel), handleMessageReceivedEvent)
 }
 
 export function* handleSendMessage({ userId: guessUserId, message }) {

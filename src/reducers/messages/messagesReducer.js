@@ -6,10 +6,10 @@ export const MESSAGE_FETCH_HISTORY = 'messages/FETCH_HISTORY';
 export const MESSAGE_FETCH_HISTORY_SUCCESS = 'messages/FETCH_HISTORY_SUCCESS';
 export const MESSAGE_FETCH_HISTORY_FAILED = 'messages/FETCH_HISTORY_FAILED';
 
-const updateNewMessage = (userId, messages) => ({
+const updateNewMessage = (userId, message) => ({
   type: MESSAGE_NEW_MESSAGE,
   userId,
-  messages,
+  message,
 });
 
 const sendMessage = (userId, message) => ({
@@ -137,24 +137,7 @@ const reducer = (state = initialState, action) => {
       }
     }
 
-    case MESSAGE_NEW_MESSAGE: {
-      const { userId, messages } = action;
-      const currentUser = state.messages[userId];
-      if (!currentUser) return;
-      const newUser = {
-        ...currentUser,
-        history: currentUser.history.concat(messages),
-      }
-
-      return {
-        ...state,
-        messages: {
-          ...state.messages,
-          [userId]: newUser,
-        } // end messages
-      }
-    }
-
+    case MESSAGE_NEW_MESSAGE:
     case MESSAGE_SEND_MESSAGE_SUCCESS: {
       const { userId, message } = action;
       const currentUser = state.messages[userId];

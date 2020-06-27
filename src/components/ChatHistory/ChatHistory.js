@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ChatRecord from '../ChatRecord';
 
-const ChatHistory = ({ chatHistory }) => {
+const ChatHistory = ({ chatHistory, guessUserId }) => {
   if (!chatHistory || !chatHistory.length) return (
     <div>Let's say hi to another!</div>
   )
@@ -12,7 +12,7 @@ const ChatHistory = ({ chatHistory }) => {
       {chatHistory.map(his => (
         <ChatRecord
         key={his.messageId}
-        isCurrentUser={false}
+        guessUserId={guessUserId}
         message={his.message}
         sender={his.sender || his._sender}
         />
@@ -23,6 +23,7 @@ const ChatHistory = ({ chatHistory }) => {
 
 ChatHistory.propTypes = {
   chatHistory: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  guessUserId: PropTypes.string,
 };
 
 export default ChatHistory;
