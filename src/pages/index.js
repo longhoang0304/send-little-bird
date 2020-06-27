@@ -6,6 +6,7 @@ import UnauthenticatedRoute from '../containers/Routes/UnauthenticatedRoute';
 import WelcomePage from './WelcomePage';
 import LoginPage from './LoginPage';
 import ChatListPage from './ChatListPage';
+import ChatDialogPage from './ChatDialogPage';
 
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -16,6 +17,7 @@ class Router extends Component {
         <UnauthenticatedRoute exact path="/" component={WelcomePage} />
         <UnauthenticatedRoute exact path="/login" component={LoginPage} />
         <AuthenticatedRoute exact path="/chat-list" component={ChatListPage} />
+        <AuthenticatedRoute exact path="/chat/:userId" component={ChatDialogPage} />
         <Redirect
           to="/login"
         />

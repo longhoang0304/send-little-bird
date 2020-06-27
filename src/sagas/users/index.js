@@ -1,2 +1,2 @@
-export { default } from './usersSagas';
-export * from './usersSagas';
+export { default } from './usersSaga';
+export * from './usersSaga';

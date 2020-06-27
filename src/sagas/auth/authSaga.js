@@ -16,7 +16,7 @@ export function* handleLogin({ username }) {
   try {
     const user = yield call(sendBirdPromisify, sb.connect.bind(sb), trimUsername);
     yield put(AuthActions.loginSuccess(user))
-    yield put(push('/chat-list'))
+    yield put(push('/channels-list'))
   } catch (error) {
     yield put(AuthActions.loginFailed(error.message));
   }

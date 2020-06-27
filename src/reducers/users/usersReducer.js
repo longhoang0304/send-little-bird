@@ -25,9 +25,11 @@ export const actions = {
 // selectors
 
 const getUserList = ({ users }) => users.userList;
+const getUserByUserId = ({ users }, userId) => users.userList.find(user => user.userId === userId);
 
 export const selectors = {
   getUserList,
+  getUserByUserId,
 };
 
 const initialState = {
